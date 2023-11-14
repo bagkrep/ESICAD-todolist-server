@@ -61,8 +61,19 @@ app.put("/todos/:id", (req, res) => {
 
 app.post("/todos", (req, res) => {
   const newTodo = req.body;
-  todos.push(newTodo);
+  todos.push({ ...newTodo, todoId: todos.length + 1 });
   return res.status(200).json(newTodo);
+});
+
+app.delete("/todos/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const index = todos.findIndex((todo) => todo.todoId === id);
+  if (index === -1) {
+    return res.status(404).json(null);
+  } else {
+    todos.splice(index, 1);
+    return res.status(200).json({ ok: true });
+  }
 });
 
 app.listen(8080, () => console.log("server started, listening on port 8080"));
