@@ -48,4 +48,15 @@ app.get("/todos/:id", (request: express.Request, result: express.Response) => {
     );
 });
 
+app.put("/todos/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const index = todos.findIndex((todo) => todo.todoId === id);
+  if (index === -1) {
+    return res.status(404).json(null);
+  } else {
+    todos[index] = { ...todos[index], ...req.body };
+    return res.status(200).json(todos[index]);
+  }
+});
+
 app.listen(8080, () => console.log("server started, listening on port 8080"));
