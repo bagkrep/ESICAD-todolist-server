@@ -59,4 +59,10 @@ app.put("/todos/:id", (req, res) => {
   }
 });
 
+app.post("/todos", (req, res) => {
+  const newTodo = req.body;
+  todos.push(newTodo);
+  return res.status(200).json(newTodo);
+});
+
 app.listen(8080, () => console.log("server started, listening on port 8080"));
